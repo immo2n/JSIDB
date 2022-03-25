@@ -39,40 +39,37 @@
           </div>
           <div class="pad" style="padding-top: 0;">
               <b>#1: Creating a database</b><br/>
-              To create a databse you have to call the method <span class="code">create</span>.
+              To create a database you have to call the method <span class="code">create</span>.
               <br>
               <b>Understand this first</b><br/>
 
               Suppose, you live in a planet called <span class="code">Earth</span> where there are <span class="code">Animals</span>, <span class="code">Plants</span>, <span class="code">Insects</span> and <span class="code">Fishes</span>.<br/>
               
               Now there are a lot of kinds of each of the catagories.<br/>
-              For example, animals can have Lions, Cats, Dogs, Humans etc. Also, Plants can be Palm tree, Pine tree etc. So each catagory has members of each kinds.
+              For example, animals can have Lions, Cats, Dogs, Humen etc. Also, Plants can be Palm tree, Pine tree etc. So each catagory has members of each kinds.
               <br>
               Now you want to store them in a database.
               <br>
               So, you will have to do the following...<br>
               1. Create a database named <span class="code">Earth</span>.<br>
-              2. You have to crate tables for each catagory.<br>
+              2. You have to create table for each catagory.<br>
               3. You have to set serial number for each table to determine the members indivisually.
               <br>
               The process should be...<br><br>
               Earth >> Tables: Animals, Plants, Insects, Fishes >> Serial: animalID, platID, insectID, fishID<br>
               <br>
               Remember, serial numbers are not automatically assigned by the database itself, you have to assign them manually when you are adding it to the database. Its very important. Next time if you want to modify the data, you will need to do it using the serial number as an ID.
-
               <br>
               So, lets write some code. <br>
-              Here we are assigning our database name, tables, serialnumbers and databse variable to 4 differest variables.
+              Here we are assigning our database name, tables, serial numbers and database version to 4 differest variables.
               <pre><code class="language-js">let db_name = "Earth", //THIS IS THE DATABASE NAME
 tables = ["Animals", "Plants", "Insects", "Fishes"], //THESE ARE THE TABLES (BASICALLY OBJECT STORES)
 serialnumbers = ["animalID", "platID", "insectID", "fishID"], //EVERY ID POSITION SHOULD FOLLOW THE TABLE POSITIONS(BASICALLY KEYS)
 version = 1; //THIS IS IMPORTANT, YOU SHOULD CHANGE THIS EVERYTIME YOU TRY TO OVERWRITE THE WHOLE DATABASE</code></pre>
-<br>
-Now, you have to pass these variables to the <span class="code">idb</span> constructor. But first create an object from idb constructor function.
+Now, you have to pass these variables to the <span class="code">jsidb</span> constructor. But first create an object from jsidb class.
 <pre><code class="language-js">const database = new jsidb; //database VARIABLE IS NOW THE OBJECT FOR ALL THE PROCESSES.</code></pre>
 <br>Now call the <span class="code">create</span> method and pass the values.
 <pre><code class="language-js">database.create(db_name, tables, serialnumbers, version); //THIS LINE WILL DO THE TRICK TO CREATE AND SETUP THE DATABASE, idb SHOULD CONFIRM THROUGH CONSOLE.</code></pre>
-<br>
 You can do all at once.
 <pre><code class="language-js">database.create(
     "Earth",
@@ -109,7 +106,7 @@ To update, you can use <span class="code">addobj</span> having same serial id or
     }
 );</code></pre>
 <b>#4: Delete an object or field</b><br/>
-Do delete use <span class="code">delobj</span> method. Provide table name and serial number or the id.
+To delete use <span class="code">delobj</span> method. Provide table name and serial number or the id.
 <pre><code class="language-js">database.delobj(
     "Animals", //TABLE NAME
     1 //THE KEY OR SERIAL NUMBER
