@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            JS IDB - JavaScript Indexed database manager
+        </title>
+        <link rel="shortcut icon" href="favicon.png">
+        <style>
+            body {
+                margin: 0 auto;
+                padding: 10px;
+                line-height: 28px;
+                font-family: sans-serif;
+                max-width: 650px;
+            }
+            .pad {
+                padding: 10px
+            }
+            .code {
+                font-family: monospace;
+                font-style: italic;
+                font-weight: bold;
+            }
+        </style>
+        <script src="dist/jsidb.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/styles/default.min.css">
+       </head>
+    <body>    
+    <div style="text-align: center;font-size: 30px;padding: 35px">
+            JS IDB - JavaScript Indexed database
+    </div>
+    <div style="text-align: center">
+        A simple class that handles all your needs of JavaScript IndexedDB<br>
+    <a href=""> Get in on Github</a> &middot Developed by <a href="//moonmonoar.github.io/portfolio" target="_blank">Moon Monoar</a>
+    </div>
+          <div class="pad">
+              This is a demo page to show how JS IDB works. Open console(Ctrl+Shift+i).
+          </div>
+          <div class="pad" style="padding-top: 0;">
+              <b>#1: Creating a database</b><br/>
+              To create a databse you have to call the method <span class="code">create</span>.
+              <br>
+              <b>Understand this first</b><br/>
+
+              Suppose, you live in a planet called <span class="code">Earth</span> where there are <span class="code">Animals</span>, <span class="code">Plants</span>, <span class="code">Insects</span> and <span class="code">Fishes</span>.<br/>
+              
+              Now there are a lot of kinds of each of the catagories.<br/>
+              For example, animals can have Lions, Cats, Dogs, Humans etc. Also, Plants can be Palm tree, Pine tree etc. So each catagory has members of each kinds.
+              <br>
+              Now you want to store them in a database.
+              <br>
+              So, you will have to do the following...<br>
+              1. Create a database named <span class="code">Earth</span>.<br>
+              2. You have to crate tables for each catagory.<br>
+              3. You have to set serial number for each table to determine the members indivisually.
+              <br>
+              The process should be...<br><br>
+              Earth >> Tables: Animals, Plants, Insects, Fishes >> Serial: animalID, platID, insectID, fishID<br>
+              <br>
+              Remember, serial numbers are not automatically assigned by the database itself, you have to assign them manually when you are adding it to the database. Its very important. Next time if you want to modify the data, you will need to do it using the serial number as an ID.
+
+              <br>
+              So, lets write some code. <br>
+              Here we are assigning our database name, tables, serialnumbers and databse variable to 4 differest variables.
+              <pre><code class="language-js">let db_name = "Earth", //THIS IS THE DATABASE NAME
+tables = ["Animals", "Plants", "Insects", "Fishes"], //THESE ARE THE TABLES (BASICALLY OBJECT STORES)
+serialnumbers = ["animalID", "platID", "insectID", "fishID"], //EVERY ID POSITION SHOULD FOLLOW THE TABLE POSITIONS(BASICALLY KEYS)
+version = 1; //THIS IS IMPORTANT, YOU SHOULD CHANGE THIS EVERYTIME YOU TRY TO OVERWRITE THE WHOLE DATABASE</code></pre>
+<br>
+Now, you have to pass these variables to the <span class="code">idb</span> constructor. But first create an object from idb constructor function.
+<pre><code class="language-js">const database = new jsidb; //database VARIABLE IS NOW THE OBJECT FOR ALL THE PROCESSES.</code></pre>
+<br>Now call the <span class="code">create</span> method and pass the values.
+<pre><code class="language-js">database.create(db_name, tables, serialnumbers, version); //THIS LINE WILL DO THE TRICK TO CREATE AND SETUP THE DATABASE, idb SHOULD CONFIRM THROUGH CONSOLE.</code></pre>
+<br>
+You can do all at once.
+<pre><code class="language-js">database.create(
+    "Earth",
+    ["Animals", "Plants", "Insects", "Fishes"],
+    ["animalID", "platID", "insectID", "fishID"],
+    1
+);</code></pre>
+BOOYAH! Database created! Open console goto the application tab and select indexed database to see it. Do not forget to Refresh the database everytime you do anyting with it.
+
+<br>
+<b>#2: Add data to a table</b><br/>
+Call the <span class="code">addobj</span> method to add data that can hold any kind of value, even primitive values like numbers and strings. You can even store arrays, objects etc directly. <br>
+So, lets add '<span class="code">Humans</span>' into <span class="code">Earth</span>'s '<span class="code">Animals</span>' table!
+<pre><code class="language-js">database.addobj(
+    "Animals", 
+    {
+        animalID: 1, //MANDATORY FIELD, SHOULD BE UNIQUE.
+        species: "Humans", //FIELD, ADD AS MANY AS YOU WANT OR PUT ALL THE DATA IN A SINGLE POSITION.
+        name: "Adam" //MORE FIELDS
+    }
+);</code></pre>
+First, you have to provide the table name "<span class="code">Animals</span>", then you have to provide an object having all the data but with the serial number or key or ID as mandatory. Remember, it will not be possible to store any data if the object does not contains the table's seial number variable set. <br>
+If you keep the serial number same for different occasions in a same table, that will simply update the field or overwrite.
+<br>
+<b>#3: Update an object or field</b><br/>
+To update, you can use <span class="code">addobj</span> having same serial id or just use the <span class="code">updateobj</span> method. The only difference is, <span class="code">addobj</span> will overwrite and <span class="code">updateobj</span> will delete then assign again.
+<pre><code class="language-js">database.updateobj(
+    "Animals", 
+    1, //THE SERIAL NUMBER, HERE animalID
+    {
+        animalID: 1, //DO NOT FORGET TO ADD THE SERIAL ID
+        species: "Humans", //FIELDS TO BE UPDATED WITH NEW VALUES
+        name: "Eve" //MORE FIELDS
+    }
+);</code></pre>
+<b>#4: Delete an object or field</b><br/>
+Do delete use <span class="code">delobj</span> method. Provide table name and serial number or the id.
+<pre><code class="language-js">database.delobj(
+    "Animals", //TABLE NAME
+    1 //THE KEY OR SERIAL NUMBER
+)</code></pre>
+<b>#5: Get the data</b><br/>
+Getting data is a little bit complex as operations performed using JavaScript IndexedDB are done asynchronously. Simply you will not be able to get the data just in time or just after calling. You will have to handle it in the future(JS promise). In simple words, you call the data alongside you set a function with instructions about what to do with the data while achieved(in future). Here the drawback lies as if your database is really very big, getting data will become a slow process or it will take more time to return the promise. At major scenarios, it can be dog slow.
+<pre><code class="language-js">window.jsidb_main.transaction("Animals").objectStore("Animals").get(1).onsuccess = function(event) { //Animals IS YOUR TABLE, AND 1 IN THE get() IS YOUR SERIAL ID OR KEY
+    console.log(event.target.result) //event.target.result WILL RETURN THE OBJECT VALUE
+}</code></pre>
+<span class="code">window.jsidb_main</span> is a global variable that is assigned everytime the page will load. It generally contains the main database object.
+<br>
+First access the object <span class="code">window.jsidb_main</span>, put the table name in the <span class="code">transaction()</span> method then again put the table name in <span class="code">objectStore()</span> method the put your field key or serial id in <span class="code">get()</span> method. Finally, add an onsuccess event listener which will have a function having <span class="code">event</span> variable that will return the data in <span class="code">event.target.result</span>.
+<br>
+<br>
+<div style="text-align: center">Developed by <a href="//moonmonoar.github.io/portfolio" target="_blank">Moon Monoar</a> &middot 2022</div>
+</div>
+          <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/highlight.min.js"></script>    
+          <script>hljs.highlightAll()</script>
+    </body>
+</html>
