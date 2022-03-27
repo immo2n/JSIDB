@@ -10,7 +10,7 @@ if (!window.indexedDB) {
     console.warn("JS IDB: Browser dose not support any stable version of IndexedDB.")
 }
 
-//window.idb_available will be set to 1 if avilable.
+//window.jsidb_available will be set to 1 if avilable.
 class jsidb {
 //CREATOR
 //TARGET OBJS IS AN ARRAY AND ARRAYS ARE TOO
@@ -30,7 +30,7 @@ create(name, target_objs, key_paths, version = 1, upgrade_data_array){
     request.onsuccess = function (event) {
         console.warn('JS IDB _CREATE: IDB SUCCESS(INITIATED ALL STORES)');
         window.jsidb_main = event.target.result;
-        window.idb_available = 1;
+        window.jsidb_available = 1;
     };
     
     //UPGRADE SECTION - (LIKE UPDATING THE DATABASE)
